@@ -1,0 +1,49 @@
+.search-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  padding: 10px 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+
+  background-color: #f9f9f9;
+
+}
+.add-batch-button{
+  background-color:#5096a4;
+  border-color:#5096a4;
+  margin-left: 1300px;
+  border-radius: 10px;
+}
+.search-container div {
+  display: flex;
+  flex-direction: column;
+}
+
+.search-container input,
+.search-container select {
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+
+  border-radius: 5px;
+
+  width: 250px;
+
+  background-color: #fff;
+
+}
+
+.search-container label {
+  margin-bottom: 5px;
+  font-weight: bold;
+  font-size: 14px;
+}
+.icon-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+

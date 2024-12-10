@@ -1,0 +1,11 @@
+<div class="chat-container">
+  <h1>Chat List</h1>
+  <div *ngIf="loading" class="loading">Loading chats...</div>
+  <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+  <div *ngIf="!loading && !errorMessage">
+    <div *ngFor="let chat of chats" class="chat-item">
+      <div class="chat-name">{{ chat.name }}</div>
+      <div class="chat-message">{{ chat.message }}</div>
+    </div>
+  </div>
+</div>

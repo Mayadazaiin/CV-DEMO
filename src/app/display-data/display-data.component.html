@@ -1,0 +1,47 @@
+
+
+<div class="search-container">
+  <div>
+    <label for="searchName">Search By Name</label>
+    <input type="text" id="searchName" placeholder="Search.." [(ngModel)]="searchName" (input)="applyFilter()" />
+  </div>
+  <div>
+    <label for="filterSource">Filter by Source</label>
+    <select id="filterSource" [(ngModel)]="selectedSource" (change)="applyFilter()">
+      <option value="">Select Source</option>
+      <option *ngFor="let source of availableSources" [value]="source">
+        {{ source }}
+      </option>
+    </select>
+  </div>
+
+</div>
+<button pButton type="button" icon="pi pi-plus" label="Add New Batch" class="p-button-primary add-batch-button"
+  (click)="navigateToAddBatch()"></button>
+
+<p-table [value]="filteredData" [paginator]="true" [rows]="10" [loading]="loading" [responsiveLayout]="'scroll'">
+  <ng-template pTemplate="header">
+    <tr>
+      <th>Batch Name</th>
+      <th>Batch Source</th>
+      <th>Actions</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-rowData>
+    <tr>
+      <td>{{ rowData.name }}</td>
+      <td>{{ rowData.source }}</td>
+      <td>
+
+    <button pButton type="button" icon="pi pi-pencil" class="p-button-rounded p-button" title="Edit"
+      (click)="onEdit(rowData.id)"
+      ></button>
+
+
+        <button pButton type="button" icon="pi pi-trash" class="p-button-rounded p-button-danger p-button-text"
+          title="Delete" (click)="deletePatch(rowData.id)"></button>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+<!-- [routerLink]="'/edit'" [queryParams]="{ id: rowData.id }" -->

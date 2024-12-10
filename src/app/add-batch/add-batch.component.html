@@ -1,0 +1,29 @@
+<div class="form-container">
+  <h2>Add CV Batch</h2>
+  <form #batchForm="ngForm" (ngSubmit)="submitBatch(batchForm)">
+    <div class="form-group">
+      <label for="file">Choose File *</label>
+      <input type="file" id="file" required (change)="onFileSelect($event)" />
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label for="name">Name *</label>
+        <input type="text" id="name" [(ngModel)]="batch.name" name="name" required placeholder="Enter Name" />
+      </div>
+      <div class="form-group">
+        <label for="source">Source *</label>
+        <select id="source" [(ngModel)]="batch.source" name="source" required>
+          <option value="">Select Source</option>
+          <option *ngFor="let source of availableSources" [value]="source">{{ source }}</option>
+        </select>
+      </div>
+    </div>
+    <div class="button-row">
+      <button type="submit" pButton label="Submit" class="btn-primary"></button>
+      <button type="button" pButton label="Cancel" class="btn-secondary" (click)="cancel()">
+
+      </button>
+    </div>
+  </form>
+  <p-toast></p-toast>
+</div>

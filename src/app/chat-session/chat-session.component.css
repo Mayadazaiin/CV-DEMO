@@ -1,0 +1,45 @@
+.container{
+  padding-top: 20px;
+}
+
+.chat-session-container {
+  width: 80%;
+  max-width: 800px;
+  margin: 10 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  text-align: center;
+  color: #333;
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.loading {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #888;
+}
+
+.error-message {
+  text-align: center;
+  color: red;
+  font-size: 1rem;
+  margin-top: 20px;
+}
+
+.chat-item {
+  background-color: #fff;
+  padding: 15px;
+  margin: 10px 0;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.chat-item p {
+  margin: 5px 0;
+}

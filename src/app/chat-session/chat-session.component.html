@@ -1,0 +1,18 @@
+<div class="chat-session">
+  <h1>Chat Session</h1>
+<div *ngIf="loading">
+    <p>Loading chats...</p>
+  </div>
+
+  <div *ngIf="!loading && chatHistory.length === 0">
+    <p>No chat history available.</p>
+  </div>
+
+  <ul *ngIf="!loading && chatHistory.length > 0">
+    <li *ngFor="let chat of chatHistory">
+      <strong>Prompt:</strong> {{ chat.prompt }}<br />
+      <strong>Response:</strong> {{ chat.response }}<br />
+      <strong>Date:</strong> {{ chat.date }}
+    </li>
+  </ul>
+</div>

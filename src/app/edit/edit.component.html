@@ -1,0 +1,35 @@
+<div class="edit-container">
+  <h2>Edit Patch</h2>
+
+  <form [formGroup]="patchForm" (ngSubmit)="updatePatch()">
+    <div>
+      <label for="patchName">Patch Name:</label>
+      <input type="text" id="patchName" formControlName="patchName" required />
+      <div *ngIf="patchForm.get('patchName')?.invalid && patchForm.get('patchName')?.touched">
+        Patch Name is required.
+      </div>
+    </div>
+
+    <div>
+      <label for="source">Source:</label>
+      <select id="source" formControlName="source" required>
+        <option *ngFor="let source of availableSources" [value]="source">
+          {{ source }}
+        </option>
+      </select>
+      <div *ngIf="patchForm.get('source')?.invalid && patchForm.get('source')?.touched">
+        Source is required.
+      </div>
+    </div>
+
+    <div class="buttons">
+      <button type="submit" class="update-button" [disabled]="!patchForm.valid">
+        Update Patch
+      </button>
+
+      <button type="button" class="cancel-button" (click)="navigateBack()">
+        Cancel
+      </button>
+    </div>
+  </form>
+</div>
