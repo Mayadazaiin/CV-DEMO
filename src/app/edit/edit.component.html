@@ -1,35 +1,41 @@
-<div class="edit-container">
-  <h2>Edit Patch</h2>
-
+<div class="form-container" *ngIf="!isLoading; else loading">
   <form [formGroup]="patchForm" (ngSubmit)="updatePatch()">
-    <div>
-      <label for="patchName">Patch Name:</label>
-      <input type="text" id="patchName" formControlName="patchName" required />
-      <div *ngIf="patchForm.get('patchName')?.invalid && patchForm.get('patchName')?.touched">
-        Patch Name is required.
-      </div>
+    <div class="form-group">
+      <label for="patchName">Patch Name <span class="required">*</span></label>
+      <input id="patchName" type="text" pInputText formControlName="patchName" placeholder="Enter patch name" />
+      <small *ngIf="
+          patchForm.get('patchName')?.invalid &&
+          patchForm.get('patchName')?.touched
+        " class="error">
+        Patch Name is required
+      </small>
     </div>
 
-    <div>
-      <label for="source">Source:</label>
-      <select id="source" formControlName="source" required>
-        <option *ngFor="let source of availableSources" [value]="source">
-          {{ source }}
-        </option>
-      </select>
-      <div *ngIf="patchForm.get('source')?.invalid && patchForm.get('source')?.touched">
+    <div class="form-group">
+      <label for="source">Source <span class="required">*</span></label>
+      <p-dropdown id="source" [options]="[
+          { label: 'LinkedIn', value: 0 },
+          { label: 'Wuzzuf', value: 1 },
+          { label: 'Indeed', value: 2 },
+          { label: 'Glassdoor', value: 3 }
+        ]" formControlName="source" placeholder="Select source"></p-dropdown>
+      <small *ngIf="
+          patchForm.get('source')?.invalid && patchForm.get('source')?.touched
+        " class="error">
         Source is required.
-      </div>
+      </small>
     </div>
 
-    <div class="buttons">
-      <button type="submit" class="update-button" [disabled]="!patchForm.valid">
-        Update Patch
-      </button>
+    <div class="form-actions">
+      <button pButton type="button" label="Cancel" class="p-button-danger" (click)="cancelUpdate()"></button>
+      <button pButton type="submit" label="Save" class="p-button-primary" [disabled]="patchForm.invalid"></button>
 
-      <button type="button" class="cancel-button" (click)="navigateBack()">
-        Cancel
-      </button>
     </div>
+
+    <small *ngIf="errorMessage" class="error-message">{{ errorMessage }}</small>
   </form>
 </div>
+
+<ng-template #loading>
+  <p>Loading...</p>
+</ng-template>

@@ -9,64 +9,82 @@ import { EditService } from '../edit.service';
   styleUrls: ['./edit.component.css'],
 })
 export class EditComponent implements OnInit {
-  patchForm!: FormGroup; // FormGroup to handle form state
-  availableSources: string[] = ['Source1', 'Source2', 'Source3']; // Example sources
-  patch: any = { id: '', patchName: '', source: 0 };
+  patchForm: FormGroup;
+  patchId: string | null = null;
+  isLoading: boolean = true;
+  errorMessage: string | null = null;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private editService: EditService,
     private fb: FormBuilder
-  ) {}
-
-  ngOnInit(): void {
-    const patchId = this.route.snapshot.paramMap.get('id');
-    if (patchId) {
-      // this.fetchPatchData(patchId);
-    }
-
+  ) {
     this.patchForm = this.fb.group({
-      patchName: ['', Validators.required], // Validators for form fields
-      source: ['', Validators.required],
+      patchName: ['', [Validators.required, Validators.minLength(3)]],
+      source: [null, [Validators.required]],
     });
   }
 
-  // fetchPatchData(id: string): void {
-  //   this.editService.getPatchById(id).subscribe(
-  //     (response: any) => {
-  //       this.patch = response;
-  //       console.log('Fetched Patch:', this.patch);
+  ngOnInit(): void {
+    this.patchId = this.route.snapshot.paramMap.get('id');
 
-  //       // Populate form with fetched data
-  //       this.patchForm.patchValue({
-  //         patchName: this.patch.patchName,
-  //         source: this.patch.source,
-  //       });
-  //     },
-  //     (error) => {
-  //       console.error('Error fetching patch:', error);
-  //     }
-  //   );
-  // }
+    if (this.patchId) {
+      this.loadPatchData(this.patchId);
+    } else {
+      this.isLoading = false;
+      this.errorMessage = 'Invalid patch ID.';
+    }
+  }
+
+  private loadPatchData(patchId: string): void {
+    this.editService.getPatchById(patchId).subscribe(
+      (data) => {
+        this.isLoading = false;
+        console.log('Patch data fetched:', data);
+
+        this.patchForm.patchValue({
+          patchName: data.patchName,
+          source: data.source,
+        });
+      },
+      (error) => {
+        this.isLoading = false;
+        console.error('Error fetching patch data:', error);
+        this.errorMessage =
+          'Error fetching patch data.';
+      }
+    );
+  }
 
   updatePatch(): void {
-    if (this.patchForm.valid) {
-      const updatedPatch = this.patchForm.value;
+    if (this.patchForm.invalid) {
+      this.errorMessage = 'Please fill in all required fields.';
+      return;
+    }
 
-      this.editService.updatePatch(updatedPatch).subscribe(
+    if (this.patchId) {
+      const patchData = {
+        id: this.patchId,
+        ...this.patchForm.value,
+      };
+
+      this.editService.updatePatch(patchData).subscribe(
         (response) => {
           console.log('Patch updated successfully:', response);
-          this.router.navigate(['/']);
+
+          this.router.navigate(['/display']);
         },
         (error) => {
           console.error('Error updating patch:', error);
+          this.errorMessage =
+            'Error updating patch.';
         }
       );
     }
   }
 
-  navigateBack(): void {
-    this.router.navigate(['/']);
+  cancelUpdate(): void {
+    this.router.navigate(['/patches']);
   }
 }
